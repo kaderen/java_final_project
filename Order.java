@@ -1,14 +1,14 @@
-import java.util.List;
+import java.util.ArrayList;
 
 public class Order {
     
-    private List<Request> foodAndDrink;
+    private ArrayList<Request> foodAndDrink;
 
-    public List<Request> getFoodAndDrink() {
+    public ArrayList<Request> getFoodAndDrink() {
         return foodAndDrink;
     }
 
-    public void setFoodAndDrink(List<Request> foodAndDrink) {
+    public void setFoodAndDrink(ArrayList<Request> foodAndDrink) {
         this.foodAndDrink = foodAndDrink;
     }
 

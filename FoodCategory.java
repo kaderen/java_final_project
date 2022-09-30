@@ -1,0 +1,4 @@
+enum FoodCategory {
+    
+    main , hot , desert , seafood , vegan
+}

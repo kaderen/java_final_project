@@ -46,8 +46,11 @@ public abstract class Request implements Consumable {
         this.quantity = quantity;
     }
 
-    // TODO TO STRING METHODU OVERRIDE EDILEREK ISTEĞIN ISMI VE FİYATI
-    // GÖSTERILEBİLİR
+    @Override
+    public String toString() {
+
+        return "Name: " + getName() + "\tPrice: " + getPrice();
+    }
 
     public static Food randomFood() {
         ArrayList<Food> list = new ArrayList<Food>();

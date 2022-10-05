@@ -4,17 +4,18 @@ import java.util.List;
 public class Order {
 
     private List<Request> foodAndDrink;
+    private boolean isStarted;
+    private Customer customer;
 
-    // TODO siparişi veren müşteri ve siparişe şefin başlayıp başlamadığını tutan
-    // bir değişken de parametre olarak eklenecek
-    // TODO YEMEK SAYISI 2Yİ GEÇMEMELİ VE İÇECEK SAYISI 1İ GEÇMEMELİ
-    public Order(List<Request> foodAndDrink) throws IllegalOrderException {
+    public Order(List<Request> foodAndDrink, Customer customer) throws IllegalOrderException {
         int foodCount = getFoodCount(foodAndDrink);
         int drinkCount = getDrinkCount(foodAndDrink);
-        if (foodCount > 2 && drinkCount > 1) {
+        if (foodCount > 2 || drinkCount > 1) {
             throw new IllegalOrderException();
         }
         this.foodAndDrink = foodAndDrink;
+        this.isStarted = false;
+        this.customer = customer;
     }
 
     public List<Request> getFoodAndDrink() {
@@ -30,8 +31,32 @@ public class Order {
         this.foodAndDrink = foodAndDrink;
     }
 
-    // TODO SİPARİŞİN NE KADAR SÜREDE HAZIRLANIP TÜKETİLDİĞİNİ INT OLARAK DÖNDÜREN
-    // BIR METHOD YAZILACAK
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean isStarted) {
+        this.isStarted = isStarted;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public int getTotalTime() {
+        int temp = 0;
+        for (Request request : foodAndDrink) {
+
+            temp += request.getTime();
+
+        }
+        return temp;
+
+    }
 
     public static int getFoodCount(List<Request> rawList) {
         int total = 0;
@@ -60,7 +85,7 @@ public class Order {
         return total;
     }
 
-    public static Order geneateOrder() throws IllegalOrderException {
+    public static Order generateOrder(Customer customer) throws IllegalOrderException {
         ArrayList<Request> list = new ArrayList<Request>();
         Food food1 = Request.randomFood();
         Food food2 = Request.randomFood();
@@ -72,10 +97,18 @@ public class Order {
             list.add(food2);
         if (drink != null)
             list.add(drink);
-        return new Order(list);
+        return new Order(list, customer);
 
     }
 
-    // TODO TOSTRING METHODU OVERRIDE EDİLEREK SIPARİŞ İÇERİĞİ YAZDIRILABİLİR
+    @Override
+    public String toString() {
+
+        String temp = "";
+        for (Request request : foodAndDrink) {
+            temp += "\n\t" + request;
+        }
+        return temp;
+    }
 
 }

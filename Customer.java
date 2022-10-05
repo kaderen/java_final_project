@@ -1,15 +1,16 @@
-import java.nio.BufferOverflowException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer extends Person implements Runnable {
-    private boolean isOrdered;
+    boolean isOrdered;
     private Order order;
+    private int tableNumber;
 
     public Customer(String name, String ssn, Date birth_Date, Gender gender) throws IllegalOrderException {
         super(name, ssn, birth_Date, gender);
         isOrdered = false;
-        this.order = Order.geneateOrder();
+        this.order = Order.generateOrder(this);
+        this.tableNumber = -1;
 
     }
 
@@ -29,19 +30,29 @@ public class Customer extends Person implements Runnable {
         this.order = order;
     }
 
+    public int getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(int tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+    /*
+     * MÜŞTERİNİN DAHA ÖNCE SİPARİŞ VERİP VERMEDİĞİNİN KONTROLÜ OLACAK
+     * EĞER MÜŞTERİ DAHA ÖNCE SİPARİŞ VERMEDİYSE İŞLEMLERE DEVAM EDİLECEK
+     * MÜŞTERİNİN SİPARİŞİ, ORDERLIST'E EKLENECEK
+     */
+
     @Override
     public void run() {
 
         if (isOrdered == false) {
             Main main = Main.main;
             main.orderList.add(order);
+            isOrdered=true;
+            System.out.println("*** " + getName() + " NAMED CUSTOMER GIVING ORDER");
 
         }
-        /*
-         * MÜŞTERİNİN DAHA ÖNCE SİPARİŞ VERİP VERMEDİĞİNİN KONTROLÜ OLACAK
-         * EĞER MÜŞTERİ DAHA ÖNCE SİPARİŞ VERMEDİYSE İŞLEMLERE DEVAM EDİLECEK
-         * MÜŞTERİNİN SİPARİŞİ, ORDERLIST'E EKLENECEK
-         */
 
     }
 

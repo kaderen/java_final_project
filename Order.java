@@ -8,6 +8,7 @@ public class Order {
     private Customer customer;
 
     public Order(List<Request> foodAndDrink, Customer customer) throws IllegalOrderException {
+
         int foodCount = getFoodCount(foodAndDrink);
         int drinkCount = getDrinkCount(foodAndDrink);
         if (foodCount > 2 || drinkCount > 1) {
@@ -47,27 +48,34 @@ public class Order {
         this.customer = customer;
     }
 
+    // Return total time of the order
+
     public int getTotalTime() {
         int temp = 0;
         for (Request request : foodAndDrink) {
-
             temp += request.getTime();
 
         }
         return temp;
-
     }
 
+    // Generate FoodCount from the requestList
     public static int getFoodCount(List<Request> rawList) {
         int total = 0;
+        // for each request
         for (Request request : rawList) {
             try {
+                // trying to downcasting the request
+                // if the request is drink error will happen
                 Food food = (Food) request;
                 total++;
             } catch (Exception e) {
                 continue;
+
             }
+
         }
+
         return total;
     }
 
@@ -103,12 +111,11 @@ public class Order {
 
     @Override
     public String toString() {
-
-        String temp = "";
+        String temp = " ";
         for (Request request : foodAndDrink) {
             temp += "\n\t" + request;
+
         }
         return temp;
     }
-
 }

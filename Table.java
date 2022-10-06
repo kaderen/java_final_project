@@ -17,15 +17,19 @@ public class Table {
     }
 
     public boolean isEmpty() {
-        return customer == null;
+        return getCustomer() == null;
     }
 
-    // static method is not dependent to any of the object parameters.
-    static HashMap<Integer,Table> getList() {
-        HashMap<Integer,Table> tableList = new HashMap<Integer,Table>();
+    @Override
+    public String toString() {
+        return "table customer= " + (getCustomer() == null ? "null" : getCustomer().getName());
+    }
+
+    static HashMap<Integer, Table> getList() {
+        HashMap<Integer, Table> tableList = new HashMap<Integer, Table>();
 
         for (int i = 0; i < 4; i++) {
-            tableList.put(i,new Table(null));
+            tableList.put(i, new Table(null));
         }
         return tableList;
     }

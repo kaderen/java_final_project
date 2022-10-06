@@ -1,7 +1,6 @@
 import java.util.Date;
 
 public abstract class Employee extends Person {
-
     private Date startDateOfWork;
     private int salary;
 

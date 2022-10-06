@@ -12,11 +12,11 @@ public class ChefPoolHandler {
         this.threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(chefs.size());
     }
 
+    // ! Müsait olan garsonlardan rastgele bir tanesi çalıştırtılacak
     void work() {
         Random rand = new Random();
 
         Chef availableChef = chefs.get(rand.nextInt(chefs.size()));
-        
 
         threadPool.execute(availableChef);
     }

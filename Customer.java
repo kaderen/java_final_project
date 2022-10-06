@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Customer extends Person implements Runnable {
-    boolean isOrdered;
+public class Customer extends Person {
+    private boolean isOrdered;
     private Order order;
     private int tableNumber;
 
@@ -37,21 +37,18 @@ public class Customer extends Person implements Runnable {
     public void setTableNumber(int tableNumber) {
         this.tableNumber = tableNumber;
     }
-    /*
-     * MÜŞTERİNİN DAHA ÖNCE SİPARİŞ VERİP VERMEDİĞİNİN KONTROLÜ OLACAK
-     * EĞER MÜŞTERİ DAHA ÖNCE SİPARİŞ VERMEDİYSE İŞLEMLERE DEVAM EDİLECEK
-     * MÜŞTERİNİN SİPARİŞİ, ORDERLIST'E EKLENECEK
-     */
 
+    // thred
     @Override
     public void run() {
-
+        // checking if the order created
         if (isOrdered == false) {
+            // the main obj
             Main main = Main.main;
+            // adding the order
             main.orderList.add(order);
-            isOrdered=true;
+            isOrdered = true;
             System.out.println("*** " + getName() + " NAMED CUSTOMER GIVING ORDER");
-
         }
 
     }

@@ -8,6 +8,7 @@ import java.util.Queue;
 import java.util.Random;
 
 public class Main {
+
     /*
      * AS A NOUN ANALYSIS OF OUR SYSTEM WE HAVE THE KEYWORDS AS
      * CUSTOMER_LIST -> LIST OF THE CUSTOMERS
@@ -18,10 +19,6 @@ public class Main {
      * CHEF_LIST -> THE LIST OF CHEFS WHO COOKS THE ORDERS
      */
 
-    // ? tek tek neden static yazmadık. -> Dışarıdan bu collectionslara
-    // (değişkenlere) erişmek istediğimiz için.
-    // ? Dışarıdan spesifik olarak aynı listelere erişmek istediğimiz için static
-    // bir nesne oluşturduk.(hepsini içeriyor.)
     ArrayList<Waiter> waiterList = Waiter.getList();
 
     ArrayList<Chef> chefList = Chef.getList();
@@ -32,10 +29,17 @@ public class Main {
 
     Queue<Order> orderList = new LinkedList<Order>();
 
+    // The pool which the waiter threads exist.
     WaiterPoolHandler waiters = new WaiterPoolHandler(waiterList);
 
+    // The pool which the chef threads exist.
+    ChefPoolHandler chefs = new ChefPoolHandler(chefList);
+
+    // Created a static object so that all the collections can be accessed from
+    // other classes with the same object.
     static Main main = new Main();
 
+    // this method generates date object from a formatted string.
     static Date getDate(String date) {
         SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
         Date rdate;
@@ -51,63 +55,60 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // WAITER POOL ILE BIR NESNE OLUŞTURULUP THREAD O ŞEKİLDE ÇALIŞTIRILACAK
+        // The thread takes new customers to the system.
 
-        // ? Waiters'ın Thread havuzunu kullanmamızı sağlayan nesne.
+        Thread newCustomerThread = new Thread(new Runnable() {
 
-        Thread newCustomThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // the list of customers
                 ArrayList<Customer> list = Customer.getList();
-                // ın every 5 second 5 new customers come to the system.
                 Random rand = new Random();
-
+                // ın every 5 second 5 new customers come to the system.
                 for (int i = 0; i < 3; i++) {
                     System.out.println("%%% NEW CUSTOMERS ARRIVED");
                     for (int j = 0; j < 5; j++) {
+                        // some delays.
                         try {
-                            Thread.sleep(rand.nextInt(1000));
+                            Thread.sleep(rand.nextInt(1500));
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        // döngüdeki anlık müşteri
                         Customer customer = list.get(i * 5 + j);
                         System.out
                                 .println("+++ " + customer.getName() + " NAMED CUSTOMER HAS ARRIVED TO THE RESTAURANT");
-                        // eğer boş masa varsa o masanın indexi
+                        // emptyIndex holds the value of the empty table ındex.
                         int emptyIndex = -1;
-                        // boş masa var mı yok mu boolean
                         boolean isEmptyPlaceExist = false;
-                        // tüm masaları dolaşıp boş masa var mı bakılıyor
+                        // looping the tables.
                         for (int k = 0; k < main.tableList.size(); k++) {
-                            // boş masa varsa döngüden çıkılıyor
+                            // if an empty table exist.
                             if (main.tableList.get(k).isEmpty()) {
                                 isEmptyPlaceExist = true;
                                 emptyIndex = k;
                                 break;
                             }
                         }
-                        // eğer table listte boş yer varsa, oraya eklenecek yoksa bekleyenlere eklenecek
                         if (isEmptyPlaceExist) {
-                            // boş yer olduğundan masaya ekleme yapılıyor
                             customer.setTableNumber(emptyIndex);
+                            // sitting the customer.
                             main.tableList.put(emptyIndex, new Table(customer));
+
                             // WAITER THREAD WILL WORK
 
-                            // ? uygun olan garsonu göreve yolluyoruz random şekilde oluşturduğumuz metod
-                            // içerisinden ayarlanıyor.
                             main.waiters.work();
 
                         } else {
-                            // boş yer olmadığından bekleme listesine alınıyor
+                            // The customers who don't want to wait may be exist so we have a boolean
+                            // variable named isWaiting.
                             boolean isWaiting = rand.nextBoolean();
                             if (isWaiting) {
                                 main.waitingCustomers.add(customer);
 
                             } else {
                                 System.out.println(
-                                        "--- " + customer.getName() + " NAMED CUSTOMER HAS LEFT FROM THE RESTAURANT");
+                                        "--- " + customer.getName()
+                                                + " NAMED CUSTOMER DIDN'T WANT TO WAIT AND HAS LEFT FROM THE RESTAURANT");
 
                             }
 
@@ -124,7 +125,7 @@ public class Main {
                 }
             }
         });
-        newCustomThread.start();
+        newCustomerThread.start();
 
     }
 

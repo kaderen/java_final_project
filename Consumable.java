@@ -1,4 +1,5 @@
 public interface Consumable {
     
-   void make();
+    void make();
+
 }

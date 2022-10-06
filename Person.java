@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public abstract class Person {
+public abstract class Person implements Runnable {
     private String name;
     private String ssn;
     private Date birth_Date;

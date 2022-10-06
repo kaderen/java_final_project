@@ -48,12 +48,16 @@ public abstract class Request implements Consumable {
 
     @Override
     public String toString() {
-
         return "Name: " + getName() + "\tPrice: " + getPrice();
+
     }
+
+    // ! Main classta çok kalabalık olmaması için yiyecek ve içecekleri burada
+    // !listeledik ve müşteriler buradan random olarak seçebilecekler
 
     public static Food randomFood() {
         ArrayList<Food> list = new ArrayList<Food>();
+        list.add(new Food(45, "makarna", 1500, 4, FoodCategory.main));
         list.add(new Food(30, "Köfte", 3000, 4, FoodCategory.main));
         list.add(new Food(50, "Pizza", 4000, 2, FoodCategory.hot));
         list.add(new Food(35, "Magnolya", 3500, 2, FoodCategory.desert));
@@ -63,7 +67,6 @@ public abstract class Request implements Consumable {
         list.add(new Food(70, "Hamburger", 3200, 6, FoodCategory.main));
         list.add(null);
         list.add(null);
-
         list.add(null);
 
         Random rand = new Random();
@@ -82,7 +85,6 @@ public abstract class Request implements Consumable {
         list.add(new Drink(3, "Su", 1000, 1, DrinkCategory.cold));
         list.add(null);
         list.add(null);
-
         list.add(null);
 
         Random rand = new Random();

@@ -61,8 +61,10 @@ public class Main {
 
             @Override
             public void run() {
+
                 // the list of customers
                 ArrayList<Customer> list = Customer.getList();
+                list.sort((o1, o2) -> o1.getOrder().getTotalTime(true)- o2.getOrder().getTotalTime(true));
                 Random rand = new Random();
                 // ın every 5 second 5 new customers come to the system.
                 for (int i = 0; i < 3; i++) {
@@ -104,6 +106,7 @@ public class Main {
                             boolean isWaiting = rand.nextBoolean();
                             if (isWaiting) {
                                 main.waitingCustomers.add(customer);
+                                System.out.println("### " + customer.getName() + " NAMED CUSTOMER IS WAITING FOR AN EMPTY TABLE");
 
                             } else {
                                 System.out.println(

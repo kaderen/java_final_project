@@ -2,14 +2,9 @@ public class Food extends Request {
 
     private FoodCategory category;
 
-    public Food(int price, String name, int time, int quantity, FoodCategory category) {
-        super(price, name, time, quantity);
+    public Food(int price, String name, int cookingTime, int quantity, FoodCategory category,int consumeTime) {
+        super(price, name, cookingTime, quantity, consumeTime);
         this.category = category;
-    }
-
-    @Override
-    public void make() {
-
     }
 
     public FoodCategory getCategory() {

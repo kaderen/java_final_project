@@ -50,10 +50,10 @@ public class Order {
 
     // Return total time of the order
 
-    public int getTotalTime() {
+    public int getTotalTime(boolean isCookingTime) {
         int temp = 0;
         for (Request request : foodAndDrink) {
-            temp += request.getTime();
+            temp += (isCookingTime == true ? request.getCookingTime() : request.getConsumeTime());
 
         }
         return temp;
@@ -105,6 +105,17 @@ public class Order {
             list.add(food2);
         if (drink != null)
             list.add(drink);
+
+        if (list.isEmpty()) {
+            while (true) {
+                Food newFood = Request.randomFood();
+                if (newFood!= null) {
+                    list.add(newFood);
+                    return new Order(list, customer); 
+                }   
+            }
+            
+        }
         return new Order(list, customer);
 
     }

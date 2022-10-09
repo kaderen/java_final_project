@@ -4,14 +4,16 @@ import java.util.Random;
 public abstract class Request implements Consumable {
     private int price;
     private String name;
-    private int time;
+    private int cookingTime;
     private int quantity;
+    private int consumeTime;
 
-    public Request(int price, String name, int time, int quantity) {
+    public Request(int price, String name, int cookingTime, int quantity, int consumeTime) {
         this.price = price;
         this.name = name;
-        this.time = time;
+        this.cookingTime = cookingTime;
         this.quantity = quantity;
+        this.consumeTime = consumeTime;
     }
 
     public int getPrice() {
@@ -22,8 +24,8 @@ public abstract class Request implements Consumable {
         return name;
     }
 
-    public int getTime() {
-        return time;
+    public int getCookingTime() {
+        return cookingTime;
     }
 
     public int getQuantity() {
@@ -38,12 +40,20 @@ public abstract class Request implements Consumable {
         this.name = name;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setCookingTime(int time) {
+        this.cookingTime = time;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getConsumeTime() {
+        return consumeTime;
+    }
+
+    public void setConsumeTime(int consumeTime) {
+        this.consumeTime = consumeTime;
     }
 
     @Override
@@ -57,14 +67,14 @@ public abstract class Request implements Consumable {
 
     public static Food randomFood() {
         ArrayList<Food> list = new ArrayList<Food>();
-        list.add(new Food(45, "makarna", 1500, 4, FoodCategory.main));
-        list.add(new Food(30, "Köfte", 3000, 4, FoodCategory.main));
-        list.add(new Food(50, "Pizza", 4000, 2, FoodCategory.hot));
-        list.add(new Food(35, "Magnolya", 3500, 2, FoodCategory.desert));
-        list.add(new Food(129, "Balık", 2000, 1, FoodCategory.seafood));
-        list.add(new Food(300, "Falafel", 5000, 3, FoodCategory.vegan));
-        list.add(new Food(120, "Pilav", 2300, 1, FoodCategory.main));
-        list.add(new Food(70, "Hamburger", 3200, 6, FoodCategory.main));
+        list.add(new Food(45, "makarna", 1500, 4, FoodCategory.main, 2000));
+        list.add(new Food(30, "Köfte", 3000, 4, FoodCategory.main,1800));
+        list.add(new Food(50, "Pizza", 4000, 2, FoodCategory.hot,3100));
+        list.add(new Food(35, "Magnolya", 3500, 2, FoodCategory.desert,1200));
+        list.add(new Food(129, "Balık", 2000, 1, FoodCategory.seafood,2050));
+        list.add(new Food(300, "Falafel", 5000, 3, FoodCategory.vegan,1500));
+        list.add(new Food(120, "Pilav", 2300, 1, FoodCategory.main, 1450));
+        list.add(new Food(70, "Hamburger", 3200, 6, FoodCategory.main, 1250));
         list.add(null);
         list.add(null);
         list.add(null);
@@ -76,13 +86,13 @@ public abstract class Request implements Consumable {
 
     public static Drink randomDrink() {
         ArrayList<Drink> list = new ArrayList<Drink>();
-        list.add(new Drink(23, "Churchill", 200, 1, DrinkCategory.cold));
-        list.add(new Drink(13, "Bira", 300, 1, DrinkCategory.cold));
-        list.add(new Drink(33, "Frozen", 400, 1, DrinkCategory.cold));
-        list.add(new Drink(43, "Soda", 220, 1, DrinkCategory.cold));
-        list.add(new Drink(33, "Meyve SUyu", 240, 1, DrinkCategory.cold));
-        list.add(new Drink(23, "Çay", 220, 1, DrinkCategory.hot));
-        list.add(new Drink(3, "Su", 1000, 1, DrinkCategory.cold));
+        list.add(new Drink(23, "Churchill", 200, 1, DrinkCategory.cold,1000));
+        list.add(new Drink(13, "Bira", 300, 1, DrinkCategory.cold,1100));
+        list.add(new Drink(33, "Frozen", 400, 1, DrinkCategory.cold,1200));
+        list.add(new Drink(43, "Soda", 220, 1, DrinkCategory.cold,1000));
+        list.add(new Drink(33, "Meyve SUyu", 240, 1, DrinkCategory.cold, 1010));
+        list.add(new Drink(23, "Çay", 220, 1, DrinkCategory.hot,1080));
+        list.add(new Drink(3, "Su", 1000, 1, DrinkCategory.cold,1100));
         list.add(null);
         list.add(null);
         list.add(null);

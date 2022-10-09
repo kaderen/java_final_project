@@ -5,12 +5,14 @@ public class Customer extends Person {
     private boolean isOrdered;
     private Order order;
     private int tableNumber;
+    private boolean isFinished;
 
     public Customer(String name, String ssn, Date birth_Date, Gender gender) throws IllegalOrderException {
         super(name, ssn, birth_Date, gender);
-        isOrdered = false;
+        this.isOrdered = false;
         this.order = Order.generateOrder(this);
         this.tableNumber = -1;
+        this.isFinished = false;
 
     }
 
@@ -38,17 +40,60 @@ public class Customer extends Person {
         this.tableNumber = tableNumber;
     }
 
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean isFinished) {
+        this.isFinished = isFinished;
+    }
+
     // thred
     @Override
     public void run() {
-        // checking if the order created
-        if (isOrdered == false) {
-            // the main obj
-            Main main = Main.main;
-            // adding the order
-            main.orderList.add(order);
-            isOrdered = true;
-            System.out.println("*** " + getName() + " NAMED CUSTOMER GIVING ORDER");
+        // the main obj
+        Main main = Main.main;
+        if (isFinished == false) {
+
+            // checking if the order created
+            if (isOrdered == false) {
+
+                // adding the order
+                main.orderList.add(order);
+                isOrdered = true;
+                System.out.println("*** " + getName() + " NAMED CUSTOMER GIVING ORDER");
+            }
+
+        } else {
+            // Customer received the order and started to consume.
+            System.out.println("@@@ " + getName() + " NAMED CUSTOMER EATING "
+                    + (getGender() == Gender.female ? "HER " : " HIS ") + "ORDER");
+            try {
+                Thread.sleep(order.getTotalTime(false));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // Removing the customer from the table.
+            int key = order.getCustomer().getTableNumber();
+            Customer customer = null;
+
+            // Polling a customer from the queue.
+            try {
+                customer = main.waitingCustomers.poll();
+                customer.setTableNumber(key);
+            } catch (Exception e) {
+            }
+
+            // updating the customer in the table which key is equal to the last order's
+            // key.
+
+            main.tableList.get(key).setCustomer(customer);
+            System.out.println("--- " + order.getCustomer().getName()
+                    + " NAMED CUSTOMER FINISHED AND EXITTING THE SYSTEM (CONSUME TIME: " + order.getTotalTime(false) + "  millisecond)" );
+
+            if (customer != null)
+                main.waiters.work();
+
         }
 
     }

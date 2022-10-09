@@ -1,8 +1,8 @@
 public class Drink extends Request {
     private DrinkCategory category;
 
-    public Drink(int price, String name, int time, int quantity, DrinkCategory category) {
-        super(price, name, time, quantity);
+    public Drink(int price, String name, int cookingTime, int quantity, DrinkCategory category, int consumeTime) {
+        super(price, name, cookingTime, quantity , consumeTime);
         this.category= category;
     }
 
@@ -14,9 +14,5 @@ public class Drink extends Request {
         this.category = category;
     }
 
-    @Override
-    public void make() {
-
-    }
 
 }

@@ -1,3 +1,5 @@
+package Test;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,6 +8,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+
+import Consumable.Table;
+import Consumable.Request.Order;
+import Models.Customer;
+import Models.Employee.Chef;
+import Models.Employee.Waiter;
+import PoolHandlers.ChefPoolHandler;
+import PoolHandlers.WaiterPoolHandler;
 
 public class Main {
 
@@ -19,28 +29,49 @@ public class Main {
      * CHEF_LIST -> THE LIST OF CHEFS WHO COOKS THE ORDERS
      */
 
-    ArrayList<Waiter> waiterList = Waiter.getList();
+    public ArrayList<Waiter> waiterList = Waiter.getList();
 
-    ArrayList<Chef> chefList = Chef.getList();
+    public ArrayList<Chef> chefList = Chef.getList();
 
-    HashMap<Integer, Table> tableList = Table.getList();
+    public HashMap<Integer, Table> tableList = Table.getList();
 
-    Queue<Customer> waitingCustomers = new LinkedList<Customer>();
+    public Queue<Customer> waitingCustomers = new LinkedList<Customer>();
 
-    Queue<Order> orderList = new LinkedList<Order>();
+    public Queue<Order> orderList = new LinkedList<Order>();
 
-    // The pool which the waiter threads exist.
-    WaiterPoolHandler waiters = new WaiterPoolHandler(waiterList);
+    /**
+     * The pool which the waiter threads exist.
+     */
+    public WaiterPoolHandler waiters = new WaiterPoolHandler(waiterList);
 
-    // The pool which the chef threads exist.
-    ChefPoolHandler chefs = new ChefPoolHandler(chefList);
+    /**
+     * The pool which the chef threads exist.
+     */
+    public ChefPoolHandler chefs = new ChefPoolHandler(chefList);
 
     // Created a static object so that all the collections can be accessed from
     // other classes with the same object.
-    static Main main = new Main();
+    private static Main singleObject = null;
 
-    // this method generates date object from a formatted string.
-    static Date getDate(String date) {
+    // SINGLETON ILE NESNE OLUŞUMU
+    /**
+     * Return an object which is singular.
+     * 
+     * @return
+     */
+    public static Main getInstance() {
+        if (singleObject == null) {
+            singleObject = new Main();
+        }
+        return singleObject;
+    }
+
+    /**
+     * @param date
+     * @return Date
+     * This method generates date object from a formatted string.
+     */
+    public static Date getDate(String date) {
         SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
         Date rdate;
         try {
@@ -55,16 +86,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // The thread takes new customers to the system.
-
         Thread newCustomerThread = new Thread(new Runnable() {
 
             @Override
             public void run() {
-
+                Main main = Main.getInstance();
                 // the list of customers
                 ArrayList<Customer> list = Customer.getList();
-                list.sort((o1, o2) -> o1.getOrder().getTotalTime(true)- o2.getOrder().getTotalTime(true));
+                list.sort((o1, o2) -> o1.getOrder().getTotalTime(true) - o2.getOrder().getTotalTime(true));
                 Random rand = new Random();
                 // ın every 5 second 5 new customers come to the system.
                 for (int i = 0; i < 3; i++) {
@@ -106,7 +135,8 @@ public class Main {
                             boolean isWaiting = rand.nextBoolean();
                             if (isWaiting) {
                                 main.waitingCustomers.add(customer);
-                                System.out.println("### " + customer.getName() + " NAMED CUSTOMER IS WAITING FOR AN EMPTY TABLE");
+                                System.out.println(
+                                        "### " + customer.getName() + " NAMED CUSTOMER IS WAITING FOR AN EMPTY TABLE");
 
                             } else {
                                 System.out.println(

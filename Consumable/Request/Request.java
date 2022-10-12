@@ -1,5 +1,10 @@
+package Consumable.Request;
 import java.util.ArrayList;
 import java.util.Random;
+
+import Consumable.Consumable;
+import Enums.DrinkCategory;
+import Enums.FoodCategory;
 
 public abstract class Request implements Consumable {
     private int price;
@@ -8,6 +13,13 @@ public abstract class Request implements Consumable {
     private int quantity;
     private int consumeTime;
 
+    /**
+     * @param price
+     * @param name
+     * @param cookingTime
+     * @param quantity
+     * @param consumeTime
+     */
     public Request(int price, String name, int cookingTime, int quantity, int consumeTime) {
         this.price = price;
         this.name = name;
@@ -65,6 +77,10 @@ public abstract class Request implements Consumable {
     // ! Main classta çok kalabalık olmaması için yiyecek ve içecekleri burada
     // !listeledik ve müşteriler buradan random olarak seçebilecekler
 
+    /**
+     * @return Food
+     * return randomly selected food
+     */
     public static Food randomFood() {
         ArrayList<Food> list = new ArrayList<Food>();
         list.add(new Food(45, "makarna", 1500, 4, FoodCategory.main, 2000));
@@ -84,6 +100,11 @@ public abstract class Request implements Consumable {
         return food;
     }
 
+    /**
+     * @return Drink
+     * return randomly selected drink
+     * 
+     */
     public static Drink randomDrink() {
         ArrayList<Drink> list = new ArrayList<Drink>();
         list.add(new Drink(23, "Churchill", 200, 1, DrinkCategory.cold,1000));

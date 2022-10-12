@@ -1,5 +1,9 @@
+package Consumable.Request;
 import java.util.ArrayList;
 import java.util.List;
+
+import Exception.IllegalOrderException;
+import Models.Customer;
 
 public class Order {
 
@@ -7,6 +11,13 @@ public class Order {
     private boolean isStarted;
     private Customer customer;
 
+    /**
+     * @param foodAndDrink
+     * @param customer
+     * @throws IllegalOrderException
+     * 
+     * Customers can give the order, waiters can receive and chefs can cook
+     */
     public Order(List<Request> foodAndDrink, Customer customer) throws IllegalOrderException {
 
         int foodCount = getFoodCount(foodAndDrink);

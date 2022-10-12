@@ -1,4 +1,0 @@
-enum DrinkCategory {
-    
-    hot, cold
-}

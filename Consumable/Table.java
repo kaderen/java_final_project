@@ -1,4 +1,7 @@
+package Consumable;
 import java.util.HashMap;
+
+import Models.Customer;
 
 public class Table {
 
@@ -25,7 +28,7 @@ public class Table {
         return "table customer= " + (getCustomer() == null ? "null" : getCustomer().getName());
     }
 
-    static HashMap<Integer, Table> getList() {
+    public  static HashMap<Integer, Table> getList() {
         HashMap<Integer, Table> tableList = new HashMap<Integer, Table>();
 
         for (int i = 0; i < 4; i++) {

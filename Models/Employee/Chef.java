@@ -1,10 +1,26 @@
-import java.util.Date;
+package Models.Employee;
+
 import java.util.ArrayList;
+import java.util.Date;
+
+import Consumable.Request.Order;
+import Enums.Gender;
+import Test.Main;
 
 public class Chef extends Employee {
 
     private int reward;
 
+    /**
+     * @param name
+     * @param ssn
+     * @param birth_Date
+     * @param gender
+     * @param startDateOfWork
+     * @param salary
+     * @param reward
+     * chef class who cooks the orders 
+     */
     public Chef(String name, String ssn, Date birth_Date, Gender gender, Date startDateOfWork, int salary, int reward) {
         super(name, ssn, birth_Date, gender, startDateOfWork, salary);
         this.reward = reward;
@@ -18,10 +34,14 @@ public class Chef extends Employee {
         this.reward = reward;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     * cooks the order trigers the customer thread
+     */
     @Override
     public void run() {
 
-        Main main = Main.main;
+        Main main = Main.getInstance();
 
         // ! Poll = Alır ve kuyruktan çıkartır.
 

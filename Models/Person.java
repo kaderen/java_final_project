@@ -1,4 +1,7 @@
+package Models;
 import java.util.Date;
+
+import Enums.Gender;
 
 public abstract class Person implements Runnable {
     private String name;
@@ -6,6 +9,12 @@ public abstract class Person implements Runnable {
     private Date birth_Date;
     private Gender gender;
 
+    /**
+     * @param name
+     * @param ssn
+     * @param birth_Date
+     * @param gender
+     */
     public Person(String name, String ssn, Date birth_Date, Gender gender) {
         this.name = name;
         this.ssn = ssn;

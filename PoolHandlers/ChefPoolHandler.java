@@ -1,7 +1,12 @@
+package PoolHandlers;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+
+import Models.Employee.Chef;
+
+
 
 public class ChefPoolHandler {
     private ArrayList<Chef> chefs;
@@ -13,7 +18,7 @@ public class ChefPoolHandler {
     }
 
     // ! Müsait olan garsonlardan rastgele bir tanesi çalıştırtılacak
-    void work() {
+    public   void work() {
         Random rand = new Random();
 
         Chef availableChef = chefs.get(rand.nextInt(chefs.size()));

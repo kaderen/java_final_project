@@ -1,10 +1,25 @@
+package Models.Employee;
 import java.util.ArrayList;
 import java.util.Date;
+
+import Consumable.Table;
+import Enums.Gender;
+import Test.Main;
 
 public class Waiter extends Employee {
 
     private int tipCount;
 
+   
+    /**
+     * @param name
+     * @param ssn
+     * @param birth_Date
+     * @param gender
+     * @param startDateOfWork
+     * @param salary
+     * @param tipCount
+     */
     public Waiter(String name, String ssn, Date birth_Date, Gender gender, Date startDateOfWork, int salary,
             int tipCount) {
         super(name, ssn, birth_Date, gender, startDateOfWork, salary);
@@ -19,11 +34,15 @@ public class Waiter extends Employee {
         this.tipCount = tipCount;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     * looking for the suitable table if there is one the customer thread will work.
+     */
     @Override
     public void run() {
 
         Table lookingTable = null;
-        Main main = Main.main;
+        Main main = Main.getInstance();
 
         // Looping all the tables to find a table which is suitable.
 
@@ -45,12 +64,17 @@ public class Waiter extends Employee {
         // trigger the customer thread to give the order.
         lookingTable.getCustomer().run();
 
-        // Trigger the chef threads to cook the order.
-        main.chefs.work();
-
     }
 
-    static ArrayList<Waiter> getList() {
+    /**
+     * triggers chef thread.
+     */
+    public static void triggerChef(){
+        Main main = Main.getInstance();
+        main.chefs.work();
+    }
+
+    public static ArrayList<Waiter> getList() {
         ArrayList<Waiter> waiterList = new ArrayList<Waiter>();
         waiterList.add(new Waiter("Kezban", "12334567765", Main.getDate("01.24.1989"), Gender.female,
                 Main.getDate("08.12.2020"), 3000, 50));
@@ -64,3 +88,5 @@ public class Waiter extends Employee {
         return waiterList;
     }
 }
+
+

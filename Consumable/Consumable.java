@@ -1,3 +1,4 @@
+package Consumable;
 public interface Consumable {
     
      int getPrice();

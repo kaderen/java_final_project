@@ -1,5 +1,13 @@
+package Models;
+
 import java.util.ArrayList;
 import java.util.Date;
+
+import Consumable.Request.Order;
+import Enums.Gender;
+import Exception.IllegalOrderException;
+import Models.Employee.Waiter;
+import Test.Main;
 
 public class Customer extends Person {
     private boolean isOrdered;
@@ -7,6 +15,13 @@ public class Customer extends Person {
     private int tableNumber;
     private boolean isFinished;
 
+    /**
+     * @param name
+     * @param ssn
+     * @param birth_Date
+     * @param gender
+     * @throws IllegalOrderException
+     */
     public Customer(String name, String ssn, Date birth_Date, Gender gender) throws IllegalOrderException {
         super(name, ssn, birth_Date, gender);
         this.isOrdered = false;
@@ -49,10 +64,16 @@ public class Customer extends Person {
     }
 
     // thred
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Runnable#run()
+     * with the condition of isFinished, the customer can give order or consume the order which is finished.
+     */
     @Override
     public void run() {
         // the main obj
-        Main main = Main.main;
+        Main main = Main.getInstance();
         if (isFinished == false) {
 
             // checking if the order created
@@ -62,9 +83,12 @@ public class Customer extends Person {
                 main.orderList.add(order);
                 isOrdered = true;
                 System.out.println("*** " + getName() + " NAMED CUSTOMER GIVING ORDER");
+                // Trigger the chef threads to cook the order.
+                Waiter.triggerChef();
             }
 
         } else {
+
             // Customer received the order and started to consume.
             System.out.println("@@@ " + getName() + " NAMED CUSTOMER EATING "
                     + (getGender() == Gender.female ? "HER " : " HIS ") + "ORDER");
@@ -73,6 +97,9 @@ public class Customer extends Person {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("--- " + order.getCustomer().getName()
+                    + " NAMED CUSTOMER FINISHED AND EXITTING THE SYSTEM (CONSUME TIME: " + order.getTotalTime(false)
+                    + "  millisecond)");
             // Removing the customer from the table.
             int key = order.getCustomer().getTableNumber();
             Customer customer = null;
@@ -88,8 +115,7 @@ public class Customer extends Person {
             // key.
 
             main.tableList.get(key).setCustomer(customer);
-            System.out.println("--- " + order.getCustomer().getName()
-                    + " NAMED CUSTOMER FINISHED AND EXITTING THE SYSTEM (CONSUME TIME: " + order.getTotalTime(false) + "  millisecond)" );
+            
 
             if (customer != null)
                 main.waiters.work();
@@ -98,7 +124,7 @@ public class Customer extends Person {
 
     }
 
-    static ArrayList<Customer> getList() {
+    public static ArrayList<Customer> getList() {
         ArrayList<Customer> customerList = new ArrayList<Customer>();
         try {
             customerList.add(new Customer("Zehra", "23456789876", Main.getDate("12.12.2000"), Gender.female));

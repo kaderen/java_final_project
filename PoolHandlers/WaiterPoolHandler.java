@@ -1,6 +1,10 @@
+package PoolHandlers;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+
+import Models.Employee.Waiter;
+
 import java.util.Random;
 
 public class WaiterPoolHandler {
@@ -14,7 +18,7 @@ public class WaiterPoolHandler {
 
     }
 
-    void work() {
+    public void work() {
         Random rand = new Random();
         Waiter availableWaiter = waiters.get(rand.nextInt(waiters.size()));
 

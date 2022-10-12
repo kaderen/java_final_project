@@ -1,9 +1,21 @@
+package Models.Employee;
 import java.util.Date;
+
+import Enums.Gender;
+import Models.Person;
 
 public abstract class Employee extends Person {
     private Date startDateOfWork;
     private int salary;
 
+    /**
+     * @param name
+     * @param ssn
+     * @param birth_Date
+     * @param gender
+     * @param startDateOfWork
+     * @param salary
+     */
     public Employee(String name, String ssn, Date birth_Date, Gender gender, Date startDateOfWork, int salary) {
         super(name, ssn, birth_Date, gender);
         this.startDateOfWork = startDateOfWork;
